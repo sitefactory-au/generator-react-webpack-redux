@@ -3,7 +3,7 @@ let path = require('path');
 let assert = require('yeoman-assert');
 let helpers = require('yeoman-test');
 
-describe('react-webpack-redux:container', () => {
+describe('sf-redux:container', () => {
   const generatorContainer = path.join(__dirname, '../../../generators/container');
 
   /**

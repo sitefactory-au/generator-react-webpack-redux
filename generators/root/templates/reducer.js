@@ -7,6 +7,6 @@
  *          you edit them, they are not updated again.
  */
 import { combineReducers } from 'redux';
-/* Populated by react-webpack-redux:reducer */
+/* Populated by sf-redux:reducer */
 const reducers = {};
 module.exports = combineReducers(reducers);
