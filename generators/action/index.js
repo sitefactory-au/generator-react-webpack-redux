@@ -88,6 +88,6 @@ module.exports = generator.Base.extend({
     this.attachToConstants(constPath, constantName);
 
     // Add action to App.js
-    this.attachToApp(appPath, relativePath, baseName);
+    //this.attachToApp(appPath, relativePath, baseName);
   }
 });

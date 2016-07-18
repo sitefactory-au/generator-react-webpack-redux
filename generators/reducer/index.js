@@ -123,6 +123,6 @@ module.exports = generator.Base.extend({
     this.attachToRoot(rootReducerPath, relativePath, baseName);
 
     // Add the reducer to App.js
-    this.attachToApp(appPath, baseName);
+    //this.attachToApp(appPath, baseName);
   }
 });

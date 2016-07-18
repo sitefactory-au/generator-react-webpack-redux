@@ -39,10 +39,21 @@ module.exports = generator.Base.extend({
       this.destinationPath('src/index.js')
     );
 
-    // Copy the app container
+    // Copy the DevTools utils
     this.fs.copy(
-      this.templatePath('App.js'),
-      this.destinationPath('src/containers/App.js')
+      this.templatePath('DevTools.js'),
+      this.destinationPath('src/utils/DevTools.js')
+    );
+
+    // Copy the app container
+    //this.fs.copy(
+    //  this.templatePath('App.js'),
+    //  this.destinationPath('src/containers/App.js')
+    //);
+
+    this.fs.copy(
+      this.templatePath('Home.js'),
+      this.destinationPath('src/containers/Home.js')
     );
   }
 });

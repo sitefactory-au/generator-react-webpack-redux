@@ -2,16 +2,22 @@ import React from 'react';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 import configureStore from './stores';
-import App from './containers/App';
+import DevTools from './utils/DevTools';
+import Home from './containers/Home';
 import { Router, Route, browserHistory } from 'react-router'
 
 const store = configureStore();
 
+/* TDOD: Populated by sf-redux:component */
+
 render(
   <Provider store={store}>
-    <Router history={browserHistory}>
-      <Route path="/" component={App} />
-    </Router>
+    <div>
+      <Router history={browserHistory}>
+        <Route path="/" component={Home} />
+      </Router>
+      <DevTools />
+    </div>
   </Provider>,
   document.getElementById('app')
 );

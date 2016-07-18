@@ -11,10 +11,9 @@ module.exports = function(state = initialState, action) {
 
   switch(action.type) {
     /*
-    case 'YOUR_ACTION': {
+    case 'YOUR_ACTION':
       // Modify next state depending on the action and return it
       return nextState;
-    } break;
     */
     default: {
       /* Return original state if no actions were consumed. */
