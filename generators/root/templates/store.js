@@ -9,7 +9,7 @@ module.exports = function(initialState) {
   if (module.hot) {
     createStoreWithMiddleware = compose(
       applyMiddleware(thunkMiddleware),
-      DevTools.instrument()
+      window.devToolsExtension ? window.devToolsExtension() : DevTools.instrument()
       //persistState(window.location.href.match(/[?&]debug_session=([^&]+)\b/))
     )(createStore);
 

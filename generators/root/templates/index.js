@@ -16,7 +16,7 @@ render(
       <Router history={browserHistory}>
         <Route path="/" component={Home} />
       </Router>
-      <DevTools />
+      { !window.devToolsExtension ? <DevTools /> : null }
     </div>
   </Provider>,
   document.getElementById('app')
