@@ -10,4 +10,5 @@ import { combineReducers } from 'redux';
 import { routerReducer } from 'react-router-redux';
 /* Populated by sf-redux:reducer */
 const reducers = {};
-module.exports = combineReducers({...reducers,routing: routerReducer});
+var result = Object.assign({routing: routerReducer}, reducers);
+module.exports = combineReducers(result);

@@ -1,6 +1,7 @@
 'use strict';
 const fs = require('fs');
 const path = require('path');
+const walk = require('esprima-walk');
 
 /* For regular JS files */
 //const esprima = require('esprima');
@@ -46,10 +47,34 @@ const getBaseName = function(path) {
   return items[items.length - 1];
 };
 
+const attachToRootReducer = function(path, relativePath, name) {
+  const reducerNode = {
+    type: 'Property',
+    kind: 'init',
+    key: { type: 'Identifier', name: name },
+    value: {
+      type: 'CallExpression',
+      callee: { type: 'Identifier', name: 'require' },
+      arguments: [ { type: 'Literal', value: relativePath } ]
+    }
+  };
+
+  let tree = read(path);
+  walk(tree, function(node) {
+    if( node.type === 'ExportDeclaration' ) console.log( node);
+    if(node.type === 'VariableDeclarator' && node.id.name === 'reducers') {
+      node.init.properties.push(reducerNode);
+    }
+  });
+  write(path, tree);
+};
+
+
 module.exports = {
-  read: read,
-  write: write,
-  getDestinationPath: getDestinationPath,
-  getBaseName: getBaseName,
-  getRelativePath: getRelativePath
+  read,
+  write,
+  getDestinationPath,
+  getBaseName,
+  getRelativePath,
+  attachToRootReducer
 }

@@ -9,28 +9,6 @@ module.exports = generator.Base.extend({
     generator.Base.apply(this, arguments);
     this.argument('name', { type: String, required: true });
 
-    this.attachToRoot = function(path, relativePath, name) {
-      const reducerNode = {
-        type: 'Property',
-        kind: 'init',
-        key: { type: 'Identifier', name: name },
-        value: {
-          type: 'CallExpression',
-          callee: { type: 'Identifier', name: 'require' },
-          arguments: [ { type: 'Literal', value: relativePath } ]
-        }
-      };
-
-      let tree = utils.read(path);
-      walk(tree, function(node) {
-        if(node.type === 'VariableDeclarator' && node.id.name === 'reducers') {
-          node.init.properties.push(reducerNode);
-        }
-      });
-
-      utils.write(path, tree);
-    };
-
     this.attachToApp = function(path, name) {
       const stateNode = {
         type: 'Property',
@@ -120,7 +98,7 @@ module.exports = generator.Base.extend({
     );
 
     // Add the reducer to the root reducer
-    this.attachToRoot(rootReducerPath, relativePath, baseName);
+    utils.attachToRootReducer(rootReducerPath, relativePath, baseName);
 
     // Add the reducer to App.js
     //this.attachToApp(appPath, baseName);
