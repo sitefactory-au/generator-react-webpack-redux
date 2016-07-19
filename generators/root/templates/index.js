@@ -4,16 +4,17 @@ import { Provider } from 'react-redux';
 import configureStore from './stores';
 import DevTools from './utils/DevTools';
 import Home from './containers/Home';
-import { Router, Route, browserHistory } from 'react-router'
+import { Router, Route, browserHistory } from 'react-router';
+import { syncHistoryWithStore } from 'react-router-redux';
 
 const store = configureStore();
-
+const history = syncHistoryWithStore(browserHistory, store)
 /* TDOD: Populated by sf-redux:component */
 
 render(
   <Provider store={store}>
     <div>
-      <Router history={browserHistory}>
+      <Router history={history}>
         <Route path="/" component={Home} />
       </Router>
       { !window.devToolsExtension ? <DevTools /> : null }
