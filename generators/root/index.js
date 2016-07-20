@@ -45,15 +45,8 @@ module.exports = generator.Base.extend({
       this.destinationPath('src/utils/DevTools.js')
     );
 
-    // Copy the app container
-    //this.fs.copy(
-    //  this.templatePath('App.js'),
-    //  this.destinationPath('src/containers/App.js')
-    //);
-
-    this.fs.copy(
-      this.templatePath('Home.js'),
-      this.destinationPath('src/containers/Home.js')
-    );
+    this.composeWith('sf-redux:module', {
+      args: ['Home']
+    });        
   }
 });

@@ -21,7 +21,7 @@ module.exports = generator.Base.extend({
         }
       };
 
-      let tree = utils.read(path);
+      let tree = utils.read(this.fs, path);
       walk(tree, function(node) {
         // Map reducer to state props
         if(node.type === 'VariableDeclarator' && node.id.name === 'props') {
@@ -72,7 +72,7 @@ module.exports = generator.Base.extend({
         }
       });
 
-      utils.write(path, tree);
+      utils.write(this.fs, path, tree);
     };
   },
 
@@ -96,9 +96,10 @@ module.exports = generator.Base.extend({
       this.destinationPath(testDestinationPath),
       { reducerName: baseName }
     );
-
+    
+    this.conflicter.force = true;
     // Add the reducer to the root reducer
-    utils.attachToRootReducer(rootReducerPath, relativePath, baseName);
+    utils.attachToRootReducer(this.fs, rootReducerPath, relativePath, baseName);
 
     // Add the reducer to App.js
     //this.attachToApp(appPath, baseName);

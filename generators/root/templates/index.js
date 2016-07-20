@@ -3,10 +3,10 @@ import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 import configureStore from './stores';
 import DevTools from './utils/DevTools';
-import Home from './containers/Home';
 import { Router, Route, browserHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import Home from './modules/Home';
 
 const store = configureStore();
 const history = syncHistoryWithStore(browserHistory, store)

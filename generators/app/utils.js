@@ -1,5 +1,4 @@
 'use strict';
-const fs = require('fs');
 const path = require('path');
 const walk = require('esprima-walk');
 
@@ -11,8 +10,8 @@ const walk = require('esprima-walk');
 const esprimaFb = require('esprima-fb');
 const escodegenJsx = require('escodegen-wallaby');
 
-const read = function(path) {
-  const data = fs.readFileSync(path, 'utf8');
+const read = function(fs, path) {
+  const data = fs.read(path);
   const options = {
     sourceType: 'module',
     range: true,
@@ -23,11 +22,11 @@ const read = function(path) {
   return esprimaFb.parse(data, options);
 };
 
-const write = function(path, tree) {
+const write = function(fs, path, tree) {
   tree = escodegenJsx.attachComments(tree, tree.comments, tree.tokens);
   const options = { comment: true, format: { indent: { style: '  ' } } };
   const code = escodegenJsx.generate(tree, options) + '\n';
-  fs.writeFileSync(path, code, 'utf8');
+  fs.write(path, code);
 };
 
 const getDestinationPath = function(name, type, suffix) {
@@ -47,7 +46,7 @@ const getBaseName = function(path) {
   return items[items.length - 1];
 };
 
-const attachToRootReducer = function(path, relativePath, name) {
+const attachToRootReducer = function(fs, path, relativePath, name) {
   const reducerNode = {
     type: 'Property',
     kind: 'init',
@@ -59,14 +58,14 @@ const attachToRootReducer = function(path, relativePath, name) {
     }
   };
 
-  let tree = read(path);
+  let tree = read(fs, path);
   walk(tree, function(node) {
     if( node.type === 'ExportDeclaration' ) console.log( node);
     if(node.type === 'VariableDeclarator' && node.id.name === 'reducers') {
       node.init.properties.push(reducerNode);
     }
   });
-  write(path, tree);
+  write(fs, path, tree);
 };
 
 

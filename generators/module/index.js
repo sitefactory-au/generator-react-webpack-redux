@@ -15,7 +15,7 @@ module.exports = generator.Base.extend({
     const prefix = '../'.repeat(depth);
     const rootReducerPath = this.destinationPath('src/reducers/index.js');
     const relativePath = utils.getRelativePath('reducer', 'modules/' + this.name, 'js');
-  
+
     var filesToCopy = [
       'container.js',
       'actionTypes.js',
@@ -31,7 +31,7 @@ module.exports = generator.Base.extend({
       name: baseName,
       prefix: prefix
     };
-
+    
     // Copy the template files
     filesToCopy.forEach( (file) => {
       var destPath = 'src/modules/' + baseName + '/' + file;
@@ -43,6 +43,6 @@ module.exports = generator.Base.extend({
     })
 
     // Add the reducer to the root reducer
-    utils.attachToRootReducer(rootReducerPath, relativePath, baseName);
+    utils.attachToRootReducer(this.fs, rootReducerPath, relativePath, baseName);
   }
 });
