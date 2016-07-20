@@ -1,6 +1,6 @@
 import { NAME } from './constants';
 import { createSelector } from 'reselect';
-import _ from 'lodash';
+import _flowRight from 'lodash/flowRight';
 
 /**** EXAMPLES 
 const shopItemsSelector = state => state.shop.items
@@ -26,4 +26,4 @@ export const totalSelector = createSelector(
 // Get the state for the module
 const root = state => state[NAME];
 
-export const name = _.flowRight(state => state.name, root);
+export const name = _flowRight(state => state.name, root);
