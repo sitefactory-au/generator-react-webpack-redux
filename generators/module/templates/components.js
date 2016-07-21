@@ -1,7 +1,4 @@
-import React, {
-  Component,
-  PropTypes
-} from 'react';
+import React from 'react';
 import { Card, CardText } from 'material-ui/Card';
 /*** Example
 // Define markup
@@ -11,4 +8,4 @@ const TodoList = ( {actions, todos }) => (
   </div>
 );
 ****/
-export const MyComponent = ({name}) => <Card><CardText>Hello from {name}</CardText></Card>
+export const <%= name %> = ({actions, name}) => <Card><CardText>Hello from {name}</CardText></Card>;

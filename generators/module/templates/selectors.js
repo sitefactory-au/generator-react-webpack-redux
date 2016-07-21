@@ -2,7 +2,7 @@ import { NAME } from './constants';
 import { createSelector } from 'reselect';
 import _flowRight from 'lodash/flowRight';
 
-/**** EXAMPLES 
+/**** EXAMPLES
 const shopItemsSelector = state => state.shop.items
 const taxPercentSelector = state => state.shop.taxPercent
 

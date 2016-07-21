@@ -1,16 +1,10 @@
-import React, {
-  Component,
-  PropTypes
-} from 'react';
+import { PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as selectors from './selectors';
 import * as actions from './actions';
 import { createStructuredSelector } from 'reselect';
-import { MyComponent } from './components';
-
-const <%= name %> = ({actions, name}) => 
-    <MyComponent actions={actions} name={name} />
+import { <%= name %> } from './components';
 
 <%= name %>.propTypes = {
   actions: PropTypes.object.isRequired

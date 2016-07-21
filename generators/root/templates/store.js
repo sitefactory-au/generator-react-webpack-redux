@@ -1,4 +1,4 @@
-import {createStore, applyMiddleware, combineReducers, compose} from 'redux';
+import {createStore, applyMiddleware, compose} from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import DevTools from '../utils/DevTools';
 import reducers from '../reducers';
@@ -16,7 +16,7 @@ module.exports = function(initialState) {
     // Enable Webpack hot module replacement for reducers
     module.hot.accept('../reducers', () => {
       const nextReducer = require('../reducers')
-      store.replaceReducer(nextReducer)
+      createStoreWithMiddleware.replaceReducer(nextReducer)
     });
   } else {
     createStoreWithMiddleware = applyMiddleware(thunkMiddleware)(createStore);
