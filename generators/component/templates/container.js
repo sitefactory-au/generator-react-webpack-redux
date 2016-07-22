@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import * as selectors from './selectors';
 import * as actions from './actions';
 import { createStructuredSelector } from 'reselect';
-import { <%= name %> } from './components';
+import { <%= name %> } from './ui';
 
 <%= name %>.propTypes = {
   actions: PropTypes.object.isRequired

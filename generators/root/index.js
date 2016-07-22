@@ -45,7 +45,7 @@ module.exports = generator.Base.extend({
       this.destinationPath('src/utils/DevTools.js')
     );
 
-    this.composeWith('sf-redux:module', {
+    this.composeWith('sf-redux:component', {
       args: ['Home']
     });        
   }
