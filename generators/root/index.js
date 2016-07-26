@@ -46,7 +46,11 @@ module.exports = generator.Base.extend({
     );
 
     this.composeWith('sf-redux:component', {
+      args: ['HelloWorld']
+    });
+    
+    this.composeWith('sf-redux:page', {
       args: ['Home']
-    });        
+    });  
   }
 });

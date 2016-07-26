@@ -6,7 +6,7 @@ import DevTools from './utils/DevTools';
 import { Router, Route, browserHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import Home from './components/Home';
+import Home from './pages/Home';
 
 const store = configureStore();
 const history = syncHistoryWithStore(browserHistory, store)
