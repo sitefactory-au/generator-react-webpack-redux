@@ -1,5 +1,6 @@
 'use strict';
 let generator = require('yeoman-generator');
+let utils = require('../app/utils');
 
 module.exports = generator.Base.extend({
 
@@ -9,19 +10,30 @@ module.exports = generator.Base.extend({
   },
 
   writing: function() {
+    const baseName = utils.getBaseName(this.name);
+    const depth = this.name.split('/').length - 1;
+    const prefix = '../'.repeat(depth);
 
-    // Build options
-    let opts = {};
+    var filesToCopy = [
+      'index.js',
+      'styles.less',
+    ];
 
-    if(this.options.stateless === true) {
-      opts.stateless = true;
-    }
+    var args = { 
+      name: baseName,
+      prefix: prefix
+    };
+    
+    // Copy the template files
+    filesToCopy.forEach( (file) => {
+      var destPath = 'src/components/' + baseName + '/' + file;
+      this.fs.copyTpl(
+        this.templatePath(file),
+        this.destinationPath(destPath),
+        args
+      );
+    })
 
-    this.composeWith('react-webpack', {
-      options: opts,
-      args: [ this.name ]
-    }, {
-      local: require.resolve('generator-react-webpack/generators/component')
-    });
+    this.conflicter.force = true;
   }
 });
