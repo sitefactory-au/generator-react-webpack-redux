@@ -1,17 +1,26 @@
 import {createStore, applyMiddleware, compose} from 'redux';
-import thunkMiddleware from 'redux-thunk';
 import DevTools from '../utils/DevTools';
 import reducers from '../reducers';
+import { rootEpic } from '../app/epics';
 import { browserHistory } from 'react-router'; 
-import { routerMiddleware } from 'react-router-redux';
+import { routerMiddleware as createRouterMiddleware } from 'react-router-redux';
+import { createEpicMiddleware } from 'redux-observable';
 
 module.exports = function(initialState) {
   let createStoreWithMiddleware;
+  
+  var routerMiddleware = createRouterMiddleware(browserHistory);
+  var epicMiddleware = createEpicMiddleware( rootEpic );
+ 
+  var storeEnhancer = applyMiddleware( epicMiddleware, routerMiddleware );
+  
+  const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
   //if (__DEV__) {
   if (module.hot) {
-    createStoreWithMiddleware = compose(
-      applyMiddleware(thunkMiddleware, routerMiddleware(browserHistory)),
-      window.devToolsExtension ? window.devToolsExtension() : DevTools.instrument()
+    createStoreWithMiddleware = composeEnhancers(
+      storeEnhancer,
+      //window.devToolsExtension ? window.devToolsExtension() : DevTools.instrument()
       //persistState(window.location.href.match(/[?&]debug_session=([^&]+)\b/))
     )(createStore);
 
@@ -21,7 +30,7 @@ module.exports = function(initialState) {
       createStoreWithMiddleware.replaceReducer(nextReducer)
     });
   } else {
-    createStoreWithMiddleware = applyMiddleware(thunkMiddleware)(createStore);
+    createStoreWithMiddleware = storeEnhancer(createStore);
   }
 
   return createStoreWithMiddleware(reducers, initialState);

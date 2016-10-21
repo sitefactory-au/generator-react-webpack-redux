@@ -68,7 +68,6 @@ const attachToRootReducer = function(fs, path, relativePath, name) {
   write(fs, path, tree);
 };
 
-
 module.exports = {
   read,
   write,

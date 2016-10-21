@@ -26,6 +26,12 @@ module.exports = generator.Base.extend({
       this.templatePath('reducer.js'),
       this.destinationPath('src/reducers/index.js')
     );
+	
+	// Copy the root epic
+    this.fs.copy(
+      this.templatePath('epics.js'),
+      this.destinationPath('src/app/epics.js')
+    );
 
     // Copy the actions const template
     this.fs.copy(
