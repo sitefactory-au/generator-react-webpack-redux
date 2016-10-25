@@ -1,11 +1,27 @@
 'use strict';
 let generator = require('yeoman-generator');
+let prompts = require('./prompts');
 
 module.exports = generator.Base.extend({
 
   constructor: function() {
     generator.Base.apply(this, arguments);
     this.argument('name', { type: String, required: true });
+  },
+  
+  prompting: function() {
+    let done = this.async();
+    this.prompt(prompts, function(props) {
+      // Set needed global vars for yo
+//      this.generatedWithVersion = packageInfo.version.split('.').unshift();
+
+      //Set needed keys into config
+      this.createApi = props.createApi; 
+      this.config.set('createApi', this.createApi);
+      this.config.save();
+
+      done();
+    }.bind(this));
   },
 
   writing: function() {
@@ -63,6 +79,13 @@ module.exports = generator.Base.extend({
     
     this.composeWith('sf-redux:page', {
       args: ['Home']
-    });  
+    });
+
+console.log( 'api? : ' + this.createApi );
+    if( this.createApi ){
+      this.composeWith('sf-redux:api', {
+        args: ['api']
+      });
+    }
   }
 });

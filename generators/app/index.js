@@ -8,32 +8,37 @@ module.exports = generator.Base.extend({
 
     this.option('skip-install');
   },
-
-  install: function() {
-
-    if(!this.options['skip-install']) {
-      this.installDependencies({ bower: false });
-    }
-
-    // Run the base react-webpack generator, then run the dispatcher
+  
+  initializing : function () {
+//    Run the base react-webpack generator, then run the dispatcher
     this.composeWith(
       'react-webpack',
       {
         options: {
-          'skip-install': this.options['skip-install']
+          'skip-install': true
         }
       },
       {
         local: require.resolve('generator-react-webpack'),
         link: 'strong'
       }
-    ).on('end', () => {
+    );
 
-      // Run the create root method
-      this.composeWith('sf-redux:root', {
-        args: ['Root']
-      });
+    //Run the create root method
+    this.composeWith('sf-redux:root', {
+      args: ['Root']
+    },
+    {
+      link: 'strong'
+    });
 
+    this.conflicter.force = true;
+  },
+
+  install: function() {
+    if(!this.options['skip-install']) {
+      this.installDependencies({ bower: false });
+      
       // Install redux and react bindings as requirement
       var npmPackages = [
           'redux', 
@@ -52,6 +57,6 @@ module.exports = generator.Base.extend({
           'fela',
           'react-fela'];
       this.npmInstall(npmPackages, { save: true });
-    });
-  }
+    }
+  },
 });
