@@ -43,7 +43,6 @@ module.exports = generator.Base.extend({
       );
     })
 
-    this.conflicter.force = true;
     // Add the reducer to the root reducer
     utils.attachToRootReducer(this.fs, rootReducerPath, relativePath, baseName);
   }

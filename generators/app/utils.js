@@ -46,7 +46,19 @@ const getBaseName = function(path) {
   return items[items.length - 1];
 };
 
+var attachments = [];
+
 const attachToRootReducer = function(fs, path, relativePath, name) {
+  attachments.push( arguments );
+}
+
+const commitReducerAttachments = function() {
+  
+  attachments.forEach((a) => attachToRootReducerActual.apply( this, a ));
+}
+
+const attachToRootReducerActual = function(fs, path, relativePath, name) {
+  console.log( 'Attaching ' + name + " to root reducer.");
   const reducerNode = {
     type: 'Property',
     kind: 'init',
@@ -68,11 +80,14 @@ const attachToRootReducer = function(fs, path, relativePath, name) {
   write(fs, path, tree);
 };
 
+
+
 module.exports = {
   read,
   write,
   getDestinationPath,
   getBaseName,
   getRelativePath,
-  attachToRootReducer
+  attachToRootReducer,
+  commitReducerAttachments
 }
