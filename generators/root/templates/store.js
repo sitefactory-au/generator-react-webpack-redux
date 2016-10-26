@@ -2,14 +2,14 @@ import {createStore, applyMiddleware, compose} from 'redux';
 import DevTools from '../utils/DevTools';
 import reducers from '../reducers';
 import { rootEpic } from '../app/epics';
-import { browserHistory } from 'react-router'; 
+import { history } from '../services/router'; 
 import { routerMiddleware as createRouterMiddleware } from 'react-router-redux';
 import { createEpicMiddleware } from 'redux-observable';
 
 module.exports = function(initialState) {
   let createStoreWithMiddleware;
   
-  var routerMiddleware = createRouterMiddleware(browserHistory);
+  var routerMiddleware = createRouterMiddleware(history);
   var epicMiddleware = createEpicMiddleware( rootEpic );
  
   var storeEnhancer = applyMiddleware( epicMiddleware, routerMiddleware );

@@ -51,6 +51,12 @@ module.exports = generator.Base.extend({
       this.destinationPath('src/utils/DevTools.js')
     );
 
+    // Copy the router service
+    this.fs.copy(
+      this.templatePath('router.js'),
+      this.destinationPath('src/services/router/index.js')
+    );
+
     this.composeWith('sf-redux:component', {
       args: ['HelloWorld']
     });
