@@ -10,6 +10,13 @@ const TodoList = ( {actions, todos }) => (
     todos.map(t => <TodoItem todo={t}/>)
   </div>
 );
+
+// Mixin example:
+const box = (styles) => (state) => Object.assign( {}, styles, {
+    border: '3px solid red',
+});
+
+const mixedStyles = box(styles);
 ****/
 
 const StyledCard = createComponent(styles, Card);
