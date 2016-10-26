@@ -1,5 +1,8 @@
 import React from 'react';
 import { Card, CardText } from 'material-ui/Card';
+import { createComponent } from 'react-fela';
+import { styles } from './styles';
+
 /*** Example
 // Define markup
 const TodoList = ( {actions, todos }) => (
@@ -8,4 +11,7 @@ const TodoList = ( {actions, todos }) => (
   </div>
 );
 ****/
-export const <%= name %> = ({actions, name}) => <Card><CardText>Hello from {name}</CardText></Card>;
+
+const StyledCard = createComponent(styles, Card);
+
+export const <%= name %> = ({actions, name}) => <StyledCard><CardText>Hello from {name}</CardText></StyledCard>;

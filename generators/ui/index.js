@@ -16,7 +16,7 @@ module.exports = generator.Base.extend({
 
     var filesToCopy = [
       'index.js',
-      'styles.less',
+      'styles.js',
     ];
 
     var args = { 

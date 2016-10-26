@@ -1,5 +1,8 @@
 import React from 'react';
 import { Card, CardText } from 'material-ui/Card';
-require('./styles.less');
+import { createComponent } from 'react-fela';
+import { styles } from '/styles';
 
-export default () => <Card><CardText>Hello from <%= name %></CardText></Card>;
+const StyledCard = createComponent(styles, Card);
+
+export default () => <StyledCard><CardText>Hello from <%= name %></CardText></StyledCard>;

@@ -24,7 +24,8 @@ module.exports = generator.Base.extend({
       'constants.js',
       'index.js',
       'selectors.js',
-      'reducer.js'
+      'reducer.js',
+      'styles.js'
     ];
 
     var args = { 
