@@ -20,7 +20,7 @@ module.exports = generator.Base.extend({
     };
     
     // Copy the template files
-	var destPath = 'src/modules/' + baseName + '/index.js';
+	var destPath = 'src/services/' + baseName + '/index.js';
 	if( !this.fs.exists(destPath) ){
       this.fs.copyTpl(
         this.templatePath('index.js'),

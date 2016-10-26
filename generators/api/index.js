@@ -23,7 +23,7 @@ module.exports = generator.Base.extend({
     
     // Copy the template files
     filesToCopy.forEach( (file) => {
-      var destPath = 'src/modules/' + baseName + '/' + file;
+      var destPath = 'src/services/' + baseName + '/' + file;
       this.fs.copyTpl(
         this.templatePath(file),
         this.destinationPath(destPath),
