@@ -3,12 +3,6 @@ let generator = require('yeoman-generator');
 let path = require('path');
 let utils = require('../../utils/all');
 let prompts = require('./prompts');
-let fs = require('fs');
-// console.log( require.resolve('react'));
-// console.log(path.dirname( require.resolve('react')));
-// console.log(path.resolve('./'));
-//let baseRootPath = path.dirname('./templates');
-//var destPath = 'src/components/' + baseName + '/' + file;
 
 module.exports = generator.Base.extend({
 
@@ -32,28 +26,6 @@ module.exports = generator.Base.extend({
       this.log(require('yeoman-welcome'));
       this.log('Out of the box I include Webpack and some default React components.\n');
     }
-
-    //    Run the base react-webpack generator, then run the dispatcher
-    // this.composeWith(
-    //   'react-webpack',
-    //   {
-    //     options: {
-    //       'skip-install': true
-    //     }
-    //   },
-    //   {
-    //     local: require.resolve('generator-react-webpack'),
-    //     link: 'strong'
-    //   }
-    // );
-
-    //Run the create root method
-    // this.composeWith('sf-redux:root', {
-    //   args: ['Root']
-    // },
-    //   {
-    //     link: 'strong'
-    //   });
   },
 
   prompting: function () {
@@ -85,7 +57,7 @@ module.exports = generator.Base.extend({
 
     // Generate our package.json. Make sure to also include the required dependencies for styles
     //let defaultSettings = this.fs.readJSON(path.join(baseRootPath, 'package.json'));
-    let defaultSettings = this.fs.readJSON(path.join(this.sourceRoot(), 'package.json'));
+    let defaultSettings = this.fs.readJSON(path.join(this.sourceRoot(), '../package_json.tmpl'));
     let packageSettings = {
       name: this.appName,
       private: true,
@@ -105,94 +77,27 @@ module.exports = generator.Base.extend({
 
   writing: function() {
 
-    let excludeList = [
-      'LICENSE',
-      'README.md',
-      'CHANGELOG.md',
-      'node_modules',
-      'package.json',
-      '.travis.yml'
-    ];
-
-
 // Get all files in our repo and copy the ones we should
     var basePath = this.sourceRoot();
     var destPath = this.destinationRoot();
-    console.log( 'Scaffolding application...');
-    fs.readdir(this.sourceRoot(), (err, items) => {
-      for(let item of items) {
 
-        // Skip the item if it is in our exclude list
-        if(excludeList.indexOf(item) !== -1) {
-          continue;
-        }
-
-        // Copy all items to our root
-//        let fullPath = path.join(baseRootPath, item);
-        let fullSrcPath = path.join(basePath, item);
-        let fullDestPath = path.join( destPath, item);
-        if(fs.lstatSync(fullSrcPath).isDirectory()) {
-          fullSrcPath = path.join( fullSrcPath, '**/*');
-//          this.fs.copy( path.join( fullSrcPath, '**/*', fullDestPath))
-//          this.bulkDirectory(item, item);
-        } else {
-          if (item === '.npmignore') {
-            fullDestPath = path.join( destPath, '.gitignore');
-          }
-        }
-//        console.log( 'copy: ' + fullSrcPath + ' -> ' + fullDestPath);
-        this.fs.copy(fullSrcPath, fullDestPath);
-    }
-    });
-
-
-    /*
-    // Get all files in our repo and copy the ones we should
-    fs.readdir(this.sourceRoot(), (err, items) => {
-      console.log( items ); 
-      for(let item of items) {
-        console.log( item ); 
-
-        // Skip the item if it is in our exclude list
-        if(excludeList.indexOf(item) !== -1) {
-          continue;
-        }
-
-        // Copy all items to our root
-//        let fullPath = path.join(baseRootPath, item);
-        let fullPath = path.join(this.sourceRoot(), item);
-        if(fs.lstatSync(fullPath).isDirectory()) {
-          this.bulkDirectory(item, item);
-        } else {
-          if (item === '.npmignore') {
-            this.copy(item, '.gitignore');
-          } else {
-            console.log( 'copy: ' + item + ' -> ' + item);
-            this.copy(item, item);
-          }
-        }
-      }
-    });
-    fs.commit();
-*/
+    console.log( 'Scaffolding application');
+    this.fs.copy(basePath, destPath);
   
     this.composeWith('sf-redux:component', {
       args: ['HelloWorld']
     });
     
-    console.log( 'Scaffolding default page');
     this.composeWith('sf-redux:page', {
       args: ['Home']
     });
 
     if( this.createApi ){
-      console.log( 'Scaffolding api');
       this.composeWith('sf-redux:api', {
         args: ['api']
       });
     }
   },
-
 
   install: function () {
     this.conflicter.force = true;
@@ -203,4 +108,8 @@ module.exports = generator.Base.extend({
       this.npmInstall();
     }
   },
+
+  end: function() {
+    this.log( 'Finished.')
+  }
 });

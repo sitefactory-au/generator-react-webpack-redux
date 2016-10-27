@@ -4,10 +4,12 @@
 const yeoman = require('./yeoman');
 const attach = require('./attach');
 const paths = require('./paths');
+const copy = require('./copy');
 
 module.exports = {
 //  config,
   yeoman,
   paths,
-  attach
+  attach,
+  copy
 };
