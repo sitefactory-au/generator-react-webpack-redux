@@ -1,28 +1,31 @@
 'use strict';
 let generator = require('yeoman-generator');
-let utils = require('../app/utils');
+let paths = require('../../utils/paths');
+
 
 module.exports = generator.Base.extend({
 
-  constructor: function() {
+  constructor: function () {
     generator.Base.apply(this, arguments);
     this.argument('name', { type: String, required: true });
   },
 
-  writing: function() {
-    const baseName = utils.getBaseName(this.name);
+  writing: function () {
+    const baseName = paths.getBaseName(this.name);
     const depth = this.name.split('/').length - 1;
     const prefix = '../'.repeat(depth);
 
-	var filesToCopy = [ 'index.js', 'api.js', 'mock.js'];		
+    var filesToCopy = ['index.js', 'api.js', 'mock.js'];
 
-    var args = { 
+    var args = {
       name: baseName,
       prefix: prefix
     };
-    
+
     // Copy the template files
-    filesToCopy.forEach( (file) => {
+    this.log('Scaffolding ' + this.name + ' api');
+
+    filesToCopy.forEach((file) => {
       var destPath = 'src/services/' + baseName + '/' + file;
       this.fs.copyTpl(
         this.templatePath(file),
@@ -32,9 +35,7 @@ module.exports = generator.Base.extend({
     })
 
     this.composeWith('sf-redux:ajax', {
-        args: ['ajax']
+      args: ['ajax']
     });
-	
-    this.conflicter.force = true;
   }
 });

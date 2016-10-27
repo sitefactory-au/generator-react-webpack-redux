@@ -1,6 +1,6 @@
 'use strict';
 let generator = require('yeoman-generator');
-let utils = require('../app/utils');
+let paths = require('../../utils/paths');
 
 module.exports = generator.Base.extend({
 
@@ -10,7 +10,7 @@ module.exports = generator.Base.extend({
   },
 
   writing: function() {
-    const baseName = utils.getBaseName(this.name);
+    const baseName = paths.getBaseName(this.name);
     const depth = this.name.split('/').length - 1;
     const prefix = '../'.repeat(depth);
 
@@ -33,7 +33,5 @@ module.exports = generator.Base.extend({
         args
       );
     })
-
-    this.conflicter.force = true;
   }
 });

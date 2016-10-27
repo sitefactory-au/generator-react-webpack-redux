@@ -4,7 +4,6 @@ let path = require('path');
 let utils = require('../../utils/all');
 let prompts = require('./prompts');
 let fs = require('fs');
-let localUtils = require('./utils');
 // console.log( require.resolve('react'));
 // console.log(path.dirname( require.resolve('react')));
 // console.log(path.resolve('./'));
@@ -55,8 +54,6 @@ module.exports = generator.Base.extend({
     //   {
     //     link: 'strong'
     //   });
-
-    //this.conflicter.force = true;
   },
 
   prompting: function () {
@@ -121,7 +118,7 @@ module.exports = generator.Base.extend({
 // Get all files in our repo and copy the ones we should
     var basePath = this.sourceRoot();
     var destPath = this.destinationRoot();
-    console.log( 'copy files');
+    console.log( 'Scaffolding application...');
     fs.readdir(this.sourceRoot(), (err, items) => {
       for(let item of items) {
 
@@ -183,11 +180,13 @@ module.exports = generator.Base.extend({
       args: ['HelloWorld']
     });
     
+    console.log( 'Scaffolding default page');
     this.composeWith('sf-redux:page', {
       args: ['Home']
     });
 
     if( this.createApi ){
+      console.log( 'Scaffolding api');
       this.composeWith('sf-redux:api', {
         args: ['api']
       });
@@ -198,12 +197,7 @@ module.exports = generator.Base.extend({
   install: function () {
     this.conflicter.force = true;
 
-    localUtils.commitReducerAttachments();
-    // console.log('test');
-    // console.log( this.destinationPath('src/reducers/index.js') );
-    // var reducerPath = this.destinationPath('src/reducers/index.js');
-    //   console.log( 'test' + this.fs.read( reducerPath));
-      //throw('error');
+    utils.attach.commit();
   
     if (!this.options['skip-install']) {
       this.npmInstall();

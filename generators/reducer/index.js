@@ -2,87 +2,21 @@
 let generator = require('yeoman-generator');
 let path = require('path');
 let walk = require('esprima-walk');
-let utils = require('../app/utils');
+let utils = require('../../utils/all');
 
 module.exports = generator.Base.extend({
   constructor: function() {
     generator.Base.apply(this, arguments);
     this.argument('name', { type: String, required: true });
-
-    this.attachToApp = function(path, name) {
-      const stateNode = {
-        type: 'Property',
-        kind: 'init',
-        key: { type: 'Identifier', name: name },
-        value: {
-          type: 'MemberExpression',
-          object: { type: 'Identifier', name: 'state' },
-          property: { type: 'Identifier', name: name }
-        }
-      };
-
-      let tree = utils.read(this.fs, path);
-      walk(tree, function(node) {
-        // Map reducer to state props
-        if(node.type === 'VariableDeclarator' && node.id.name === 'props') {
-          node.init.properties.push(stateNode);
-        }
-
-        // Add state to main container
-        if(node.type === 'MethodDefinition' && node.key.name === 'render') {
-          const diff = {
-            value: {
-              type: 'Identifier',
-              name: name,
-              typeAnnotation: undefined,
-              optional: undefined
-            },
-            shorthand: true
-          }
-          const propNode = Object.assign({}, stateNode, diff);
-          node.value.body.body[0].declarations[0].id.properties.push(propNode);
-        }
-
-        if(node.type === 'MethodDefinition' && node.key.name === 'render') {
-          const attribute = {
-            type: 'JSXAttribute',
-            name: { type: 'JSXIdentifier', name: name},
-            value: {
-              type: 'JSXExpressionContainer',
-              expression: {
-                type: 'Identifier',
-                name: name
-              }
-            }
-          }
-          node.value.body.body[1].argument.openingElement.attributes.push(attribute);
-        }
-
-        // Make the reducers state required
-        if(node.type === 'AssignmentExpression' && node.left.object.name === 'App') {
-          const diff = {
-            value: {
-              type: 'MemberExpression',
-              object: { type: 'Identifier', name: 'PropTypes' },
-              property: { type: 'Identifier', name: 'object.isRequired' }
-            }
-          }
-          const propNode = Object.assign({}, stateNode, diff);
-          node.right.properties.push(propNode);
-        }
-      });
-
-      utils.write(this.fs, path, tree);
-    };
   },
 
   writing: function() {
     const appPath = this.destinationPath('src/containers/App.js');
     const rootReducerPath = this.destinationPath('src/reducers/index.js');
-    const destination = utils.getDestinationPath(this.name, 'reducers', 'js');
-    const baseName = utils.getBaseName(this.name);
+    const destination = utils.paths.getDestinationPath(this.name, 'reducers', 'js');
+    const baseName = utils.paths.getBaseName(this.name);
     const testDestinationPath = path.join('test', 'reducers', baseName + 'Test.js');
-    const relativePath = utils.getRelativePath(this.name, 'reducers', 'js');
+    const relativePath = utils.paths.getRelativePath(this.name, 'reducers', 'js');
 
     // Copy the reducer template
     this.fs.copy(
@@ -97,9 +31,8 @@ module.exports = generator.Base.extend({
       { reducerName: baseName }
     );
     
-    this.conflicter.force = true;
     // Add the reducer to the root reducer
-    utils.attachToRootReducer(this.fs, rootReducerPath, relativePath, baseName);
+    utils.attach.toRootReducer(this.fs, rootReducerPath, relativePath, baseName);
 
     // Add the reducer to App.js
     //this.attachToApp(appPath, baseName);

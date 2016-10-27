@@ -1,67 +1,13 @@
 'use strict';
 let generator = require('yeoman-generator');
-let walk = require('esprima-walk');
-let utils = require('../app/utils');
+let paths = require('../../utils/paths');
+
 
 module.exports = generator.Base.extend({
 
   constructor: function() {
     generator.Base.apply(this, arguments);
     this.argument('name', { type: String, required: true });
-
-    this.attachToApp = function(path, actionPath, name) {
-      const actionNode = {
-        type: 'Property',
-        kind: 'init',
-        key: { type: 'Identifier', name: name },
-        value: {
-          type: 'CallExpression',
-          callee: { type: 'Identifier', name: 'require' },
-          arguments: [ { type: 'Literal', value: actionPath } ]
-        }
-      };
-
-      let tree = utils.read(path);
-      walk(tree, function(node) {
-        if(node.type === 'VariableDeclarator' && node.id.name === 'actions') {
-          node.init.properties.push(actionNode);
-        }
-      });
-
-      utils.write(path, tree);
-    };
-
-    this.attachToConstants = function(path, name) {
-      const constantNode = {
-        type: 'ExportDeclaration',
-        declaration: {
-          type: 'VariableDeclaration',
-          kind: 'const',
-          declarations: [
-            {
-              type: 'VariableDeclarator',
-              id: {
-                type: 'Identifier',
-                name: name
-              },
-              init: {
-                type: 'Literal',
-                value: name
-              }
-            }
-          ]
-        }
-      };
-
-      let tree = utils.read(path);
-      walk(tree, function(node) {
-        if(node.type === 'Program') {
-          node.body.push(constantNode);
-        }
-      });
-
-      utils.write(path, tree);
-    };
   },
 
   writing: function() {
@@ -85,7 +31,7 @@ module.exports = generator.Base.extend({
     );
 
     // Add action to const.js
-    this.attachToConstants(constPath, constantName);
+    attach.toConstants(this.fs, constPath, constantName);
 
     // Add action to App.js
     //this.attachToApp(appPath, relativePath, baseName);

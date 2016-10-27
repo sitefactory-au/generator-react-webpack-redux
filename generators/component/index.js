@@ -1,6 +1,6 @@
 'use strict';
 let generator = require('yeoman-generator');
-let utils = require('../app/utils');
+let utils = require('../../utils/all');
 
 module.exports = generator.Base.extend({
 
@@ -10,11 +10,11 @@ module.exports = generator.Base.extend({
   },
 
   writing: function() {
-    const baseName = utils.getBaseName(this.name);
+    const baseName = utils.paths.getBaseName(this.name);
     const depth = this.name.split('/').length - 1;
     const prefix = '../'.repeat(depth);
     const rootReducerPath = this.destinationPath('src/reducers/index.js');
-    const relativePath = utils.getRelativePath('reducer', 'components/' + this.name, 'js');
+    const relativePath = utils.paths.getRelativePath('reducer', 'components/' + this.name, 'js');
 
     var filesToCopy = [
       'container.js',
@@ -34,6 +34,7 @@ module.exports = generator.Base.extend({
     };
     
     // Copy the template files
+    this.log( 'Scaffolding ' + this.name + ' component');
     filesToCopy.forEach( (file) => {
       var destPath = 'src/components/' + baseName + '/' + file;
       this.fs.copyTpl(
@@ -44,6 +45,10 @@ module.exports = generator.Base.extend({
     })
 
     // Add the reducer to the root reducer
-    utils.attachToRootReducer(this.fs, rootReducerPath, relativePath, baseName);
+    utils.attach.toRootReducer(this.fs, rootReducerPath, relativePath, baseName);
+  },
+
+  end: function() {
+    this.log( 'Finished.')
   }
 });

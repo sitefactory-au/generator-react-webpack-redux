@@ -1,6 +1,6 @@
 'use strict';
 let generator = require('yeoman-generator');
-let utils = require('../app/utils');
+let paths = require('../../utils/paths');
 
 module.exports = generator.Base.extend({
 
@@ -10,12 +10,14 @@ module.exports = generator.Base.extend({
   },
 
   writing: function() {
-    const destination = utils.getDestinationPath(this.name, 'pages', 'js');
-    const baseName = utils.getBaseName(this.name);
+    const destination = paths.getDestinationPath(this.name, 'pages', 'js');
+    const baseName = paths.getBaseName(this.name);
     const depth = this.name.split('/').length - 1;
     const prefix = '../'.repeat(depth);
 
     // Copy container template
+    this.log( 'Scaffolding ' + this.name + ' page');
+
     this.fs.copyTpl(
       this.templatePath('Page.js'),
       this.destinationPath(destination),
