@@ -85,7 +85,7 @@ module.exports = generator.Base.extend({
     this.fs.copy(basePath, destPath);
   
     this.composeWith('sf-redux:component', {
-      args: ['HelloWorld', true]
+      args: ['HelloWorld', 'true']
     });
     
     this.composeWith('sf-redux:page', {

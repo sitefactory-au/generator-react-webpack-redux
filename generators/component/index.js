@@ -8,21 +8,27 @@ module.exports = generator.Base.extend({
   constructor: function () {
     generator.Base.apply(this, arguments);
     this.argument('name', { type: String, required: true });
+    this.argument('hasState', { type: Boolean, required: false });
   },
 
   prompting: function () {
-    let done = this.async();
-    this.prompt(prompts, function (props) {
-      // Set needed global vars for yo
-      this.hasState = props.hasState;
+    if (this.hasState === undefined) {
+      let done = this.async();
+      this.prompt(prompts, function (props) {
+        // Set needed global vars for yo
+        this.hasState = props.hasState;
+        done();
+      }.bind(this));
+    }
+    else{
+      this.hasState = this.hasState === 'true' || this.hasState === true;
+    }
+  },
 
-      // Set needed keys into config
-      this.config.set('hasState', this.hasState);
-
-      this.config.save();
-
-      done();
-    }.bind(this));
+  configuring: function () {
+    // Set needed keys into config
+    this.config.set('hasState', this.hasState);
+    this.config.save();
   },
 
   writing: function () {
@@ -50,5 +56,10 @@ module.exports = generator.Base.extend({
         args
       );
     }
+  },
+
+  install: function () {
+    this.conflicter.force = true;
+    utils.attach.commit();
   }
 });
