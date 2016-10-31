@@ -47,12 +47,12 @@ module.exports = generator.Base.extend({
       var args = { name: baseName, prefix: prefix };
       this.fs.copyTpl(
         this.templatePath('ui.js'),
-        this.destinationPath(utils.paths.getDestinationPath('index', 'components', 'js')),
+        this.destinationPath(utils.paths.getDestinationPath('index', 'components/' + baseName, 'js')),
         args
       );
       this.fs.copyTpl(
         this.templatePath('styles.js'),
-        this.destinationPath(utils.paths.getDestinationPath('styles', 'components', 'js')),
+        this.destinationPath(utils.paths.getDestinationPath('styles', 'components/' + baseName, 'js')),
         args
       );
     }
