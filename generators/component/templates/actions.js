@@ -1,8 +1,7 @@
 import * as t from './actionTypes';
+import {createAction} from '../../actions/factories';
 
 // Define actions here
 /*
-export const YOUR_ACTION = () => ({
-  type: t.YOUR_ACTION
-});
+export const YOUR_ACTION = createAction(t.YOURACTION);
 */
