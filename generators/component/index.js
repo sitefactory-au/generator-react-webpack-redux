@@ -25,12 +25,6 @@ module.exports = generator.Base.extend({
     }
   },
 
-  configuring: function () {
-    // Set needed keys into config
-    this.config.set('hasState', this.hasState);
-    this.config.save();
-  },
-
   writing: function () {
     const baseName = utils.paths.getBaseName(this.name);
     const rootReducerPath = this.destinationPath('src/reducers/index.js');
