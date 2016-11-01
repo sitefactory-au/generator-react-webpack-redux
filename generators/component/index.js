@@ -34,7 +34,7 @@ module.exports = generator.Base.extend({
   writing: function () {
     const baseName = utils.paths.getBaseName(this.name);
     const rootReducerPath = this.destinationPath('src/reducers/index.js');
-    const relativePath = utils.paths.getRelativePath('reducer', 'components/' + this.baseName, 'js');
+    const relativePath = utils.paths.getRelativePath('reducer', 'components/' + this.name, 'js');
     const depth = this.name.split('/').length - 1;
     const prefix = '../'.repeat(depth);
 
