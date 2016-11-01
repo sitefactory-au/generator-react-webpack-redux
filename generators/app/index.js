@@ -82,7 +82,7 @@ module.exports = generator.Base.extend({
     var destPath = this.destinationRoot();
 
     console.log( 'Scaffolding application');
-    this.fs.copy(basePath, destPath);
+    this.fs.copy(basePath, destPath, { globOptions: { dot: true } });
   
     this.composeWith('sf-redux:component', {
       args: ['HelloWorld', 'true']
