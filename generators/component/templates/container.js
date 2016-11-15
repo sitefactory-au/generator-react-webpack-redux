@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as selectors from './selectors';
 import * as actions from './actions';
-import { createStructuredSelector } from 'reselect';
+import { createStructuredSelector } from '../../utils/createStructuredSelector';
 import { <%= name %> } from './ui';
 
 <%= name %>.propTypes = {
