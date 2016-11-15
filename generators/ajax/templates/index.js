@@ -1,19 +1,10 @@
-import 'rxjs';
+import {Observable} from 'rxjs/Observable';
 
-const get(url, headers ) {
-	return ajax.getJSON( url, headers );
+const obj = {
+    get: (url, headers ) => Observable.ajax.getJSON( url, headers ),
+    put: (url, payload, headers ) => Observable.ajax.put( url, payload, headers ),
+    post: (url, payload, headers ) => Observable.ajax.post( url, payload, headers ),
+    delete: (url, headers ) => Observable.ajax.delete( url, headers )
 }
 
-const put(url, payload, headers ) {
-	return ajax.put( url, payload );
-}
-
-const post(url, payload, headers ) {
-	return ajax.post( url, payload, headers );
-}
-
-const delete(url, headers ) {
-	return ajax.delete( url, headers );
-}
-
-export const ajax = {get, put, post, delete};
+export default obj;

@@ -2,7 +2,8 @@
 import 'rxjs';
 import { Observable } from 'rxjs/Observable'; 
 
-const _wrap = (val) => Observable.of(val);
+const _wrap = (val) => Observable.of( { response: val });
+const _wrapError = (val) => Observable.throw( { response: val });
 
 /*
 Example:  
